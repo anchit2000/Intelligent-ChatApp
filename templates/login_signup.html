@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<h1>Hello, please enter your login details</h1>
+<form action={{url_for("submit")}} method="POST">
+    <table>
+        {% for field in form %}
+            <tr>
+                {% if field.label.text == 'username' %}
+                    <td>{{field.label}}</td>
+                    <td>{{field}}</td>
+                {% elif field.label.text == 'password' %}
+                    <td>{{field.label}}</td>
+                    <td>{{field}}</td>
+                {% elif field.label.text == 'send' %}
+                    <td></td>
+                    <td>{{field}}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    {{form.hidden_tag()}}
+</form>
+</body>
+</html>
