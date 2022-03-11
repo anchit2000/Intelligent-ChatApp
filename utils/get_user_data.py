@@ -1,4 +1,4 @@
-from utils.mysql_connection import cursor
+from utils.mysql_connection import cursor, conn
 
 from datetime import datetime
 
@@ -43,6 +43,7 @@ class CreateNew:
                  self.password,
                  self.time_now)
             )
+            conn.commit()
             return 1
         except Exception as e:
             print(e)
