@@ -1,5 +1,6 @@
 import mysql.connector
 
+# TODO : These creds should be ENV vars
 conn = mysql.connector.connect(
     host="localhost",
     username="root",
