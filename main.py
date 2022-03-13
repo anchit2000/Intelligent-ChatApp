@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, current_user, logout_user, log
 from utils.user import User
 from utils.get_user_data import UserData, CreateNew
 import os
+from flask_socketio import SocketIO, join_room, leave_room
 
 app = Flask(__name__)
 
@@ -13,6 +14,8 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+socketio = SocketIO(app)
 
 
 @login_manager.user_loader
@@ -124,4 +127,4 @@ def test_if_live():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(debug=True)
