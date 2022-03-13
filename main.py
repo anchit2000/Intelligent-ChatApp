@@ -89,7 +89,7 @@ def submit():
             password = request.form['password']
             res = check_password(username, password)
             if res['result'] == 1:
-                user_ = User(username=username, password=password,id=res['user_details']['id'])
+                user_ = User(username=username, password=password, id=res['user_details']['id'])
                 login_user(user=user_, remember=True)
                 return redirect('/home')
             elif res['result'] == 2:
@@ -113,10 +113,13 @@ def create_account():
 
 
 @app.route("/home")
-@login_required
 def home():
     if current_user.is_authenticated:
-        return f"Welcome back, {current_user.username}, your id is {current_user.id}"
+        user_data = UserData(current_user.username)
+        result = user_data.find_user_friends()
+        friends = result['usernames']
+        users = user_data.get_all_users()
+        return render_template("home.html", username=current_user.username, friends=friends,len_friends = len(friends), users=users['usernames'], len_users = len(users['usernames']))
     else:
         return redirect(url_for('login_signup'))
 
@@ -127,4 +130,4 @@ def test_if_live():
 
 
 if __name__ == '__main__':
-    socketio.run(debug=True)
+    socketio.run(app)
