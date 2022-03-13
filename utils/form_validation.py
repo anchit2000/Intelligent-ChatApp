@@ -4,13 +4,16 @@ from wtforms import validators
 
 from utils.get_user_data import UserData
 
+
 class MyForm(FlaskForm):
     username = StringField('username', validators=[validators.data_required()])
     password = PasswordField('password', validators=[validators.data_required()])
     send = SubmitField('send')
 
+
 class newAccountForm(MyForm):
     name = StringField('name', validators=[validators.data_required()])
+
 
 # TODO : PASSWORD SHOULD BE ENCRYPTED WITH DATE FOR STORING IN DB
 def check_password(username, password):
@@ -23,8 +26,8 @@ def check_password(username, password):
         # date_created = result['date_created']
         password_ = result['password_']
         if password == password_:
-            return 1
+            return {'result': 1, 'user_details': result}
         else:
-            return 3
+            return {'result': 3, 'user_details': ""}
     else:
-        return 2
+        return {'result': 2, 'user_details': ""}

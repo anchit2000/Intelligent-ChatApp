@@ -18,7 +18,7 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(username):
     result = UserData(username).get_user_details()
-    return User(username, result['password_'])
+    return User(username=username, password=result['password_'], id=result['id'])
 
 
 # app.register_blueprint()
@@ -46,6 +46,7 @@ def logout():
     logout_user()
     return redirect(url_for('login_signup'))
 
+
 @app.route("/create", methods=['GET', 'POST'])
 def create_new_account():
     form = newAccountForm()
@@ -54,10 +55,11 @@ def create_new_account():
             name = request.form['name']
             username = request.form['username']
             password = request.form['password']
-            if check_password(username, password) == 2:
-                resp = CreateNew(name,username,password).create_user()
+            res = check_password(username, password)
+            if res['result'] == 2:
+                resp = CreateNew(name, username, password).create_user()
                 if resp == 1:
-                    login_user(user = User(username,password),remember=True)
+                    login_user(user=User(username, password), remember=True)
                     return redirect(url_for('home'))
                 elif resp == 2:
                     flask.flash("USERNAME ALREADY TAKEN!")
@@ -82,11 +84,12 @@ def submit():
         if request.method == "POST":
             username = request.form['username']
             password = request.form['password']
-            if check_password(username, password) == 1:
-                user_ = User(username, password)
+            res = check_password(username, password)
+            if res['result'] == 1:
+                user_ = User(username=username, password=password,id=res['user_details']['id'])
                 login_user(user=user_, remember=True)
                 return redirect('/home')
-            elif check_password(username, password) == 2:
+            elif res['result'] == 2:
                 return render_template("new account.html")
             else:
                 flash("Wrong password")
@@ -99,17 +102,18 @@ def submit():
         except Exception as e:
             return str(jsonify(e)) + str(form.errors)
 
+
 @app.route("/create_account")
 def create_account():
     form = newAccountForm()
-    return render_template("new account form.html",form = form)
+    return render_template("new account form.html", form=form)
 
 
 @app.route("/home")
 @login_required
 def home():
     if current_user.is_authenticated:
-        return f"Welcome back, {current_user.username}"
+        return f"Welcome back, {current_user.username}, your id is {current_user.id}"
     else:
         return redirect(url_for('login_signup'))
 

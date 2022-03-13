@@ -1,8 +1,9 @@
 class User:
 
-    def __init__(self, username, password):
+    def __init__(self, id, username, password):
         self.username = username
         self.password = password
+        self.id = id
 
     def is_authenticated(self):
         return True
