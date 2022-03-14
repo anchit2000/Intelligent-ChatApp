@@ -136,6 +136,11 @@ def home():
 def test_if_live():
     return "The service is running"
 
+@socketio.on("my_event")
+def testing_socketio(data):
+    print(type(data))
+    print(data)
+
 
 if __name__ == '__main__':
     socketio.run(app)
