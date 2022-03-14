@@ -8,21 +8,24 @@
     <h1>Hi, welcome {{username}}</h1>
     <h3>Your friends.</h3>
     <form action={{url_for("home")}} method="POST">
-        <select name="friends" id="friends">
+        <label for="friends_">Choose a Friend:</label>
+        <select name="friends_" id="friends_">
             { % for i in range(0, len_friends) % }
                 <option value={{friends[i]}}>{{friends[i]}}</option>
             { % endfor % }
         </select>
+        <br>
         <input type="submit" value="Submit">
     </form>
     <h3>All Users.</h3>
-    <p>{{users}} {{len_users}}</p>
     <form action={{url_for("home")}} method="POST">
-        <select name="users" id="users">
-            { % for i in range(0, len_users) % }
-                <option value={{users[i]}}>{{users[i]}}</option>
-            { % endfor % }
+        <label for="users_">Choose a User:</label>
+        <select name="users_" id="users_">
+            {%for i in users%}
+                <option value={{i}}>{{i}}</option>
+            {%endfor%}
         </select>
+        <br>
         <input type="submit" value="Submit">
     </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
