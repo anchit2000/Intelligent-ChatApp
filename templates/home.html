@@ -7,16 +7,21 @@
 <body>
     <h1>Hi, welcome {{username}}</h1>
     <h3>Your friends.</h3>
-    <form action={{url_for("home")}} method="POST">
-        <label for="friends_">Choose a Friend:</label>
-        <select name="friends_" id="friends_">
-            { % for i in range(0, len_friends) % }
-                <option value={{friends[i]}}>{{friends[i]}}</option>
-            { % endfor % }
-        </select>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
+    {% if len_friends != 0 %}
+        <form action={{url_for("home")}} method="POST">
+            <label for="friends_">Choose a Friend:</label>
+            <select name="friends_" id="friends_">
+                { % for i in range(0, len_friends) % }
+                    <option value={{friends[i]}}>{{friends[i]}}</option>
+                { % endfor % }
+            </select>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <p>No Friends yet. Please start talking to someone first.</p><br>
+        <p>You can select any user from below</p>
+    {% endif %}
     <h3>All Users.</h3>
     <form action={{url_for("home")}} method="POST">
         <label for="users_">Choose a User:</label>
@@ -35,6 +40,10 @@
         socket.emit('my event', {data: 'I\'m connected!'});
     });
 </script>
+
+<!-- Space for creating chat thingy-->
+
+
 </body>
 </html>
 

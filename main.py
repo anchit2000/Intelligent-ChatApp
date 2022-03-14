@@ -112,9 +112,17 @@ def create_account():
     return render_template("new account form.html", form=form)
 
 
-@app.route("/home")
+@app.route("/home",methods = ['GET', 'POST'])
 def home():
     if current_user.is_authenticated:
+        if request.method == "POST":
+            if request.form['users_']:
+                user = request.form['users_']
+            else:
+                user = request.form['users_']
+
+        # TODO : Get historical chat and create room for chatting. check if new html template is required.
+
         user_data = UserData(current_user.username)
         result = user_data.find_user_friends()
         friends = result['usernames']
